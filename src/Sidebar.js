@@ -14,7 +14,7 @@ function SidebarSidebar() {
   return (
     <div className="sidebar">
 
-        <h2>I am the sidebar</h2>
+
         
         <div className="sidebar_top">
             <h3>Clever progammer</h3>
