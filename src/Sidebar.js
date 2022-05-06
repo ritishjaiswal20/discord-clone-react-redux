@@ -10,12 +10,13 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SidebarChannel from './SidebarChannel';
 import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
-function SidebarSidebar() {
+import { useSelector } from 'react-redux';
+import { selectUser } from './features/userSlice';
+import { auth } from './firebase';
+function Sidebar() {
+  const user=useSelector(selectUser);
   return (
     <div className="sidebar">
-
-
-        
         <div className="sidebar_top">
             <h3>Clever progammer</h3>
             <ExpandMoreIcon/>
@@ -48,11 +49,11 @@ function SidebarSidebar() {
        </div>
       </div>
 
-      <div className="sidebar_profile">
-         <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQg4h1B8CMfadXgfKeNcNleBEARIvHzdnjZRw&usqp=CAU"/>
+      <div className="sidebar_profile" onClick={()=>auth.signOut()} >
+         <Avatar src={user.photo}/>
           <div className="sidebar_profileInfo">
-            <h3>@Ritish jaiswal</h3>
-            <p>#thisismyId</p>
+            <h3>{user.displayName}</h3>
+            <p>#{user.uid.substring(0,5)}</p>
           </div>
           <div className="sidebar_profileIcons">
             <MicIcon/>
@@ -64,4 +65,4 @@ function SidebarSidebar() {
   )
 }
 
-export default SidebarSidebar
+export default Sidebar

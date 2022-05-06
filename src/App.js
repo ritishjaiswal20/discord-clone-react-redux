@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Sidebar from "./Sidebar.js"
-import {selectUser} from "./features/userSlice";
+import {login, logout, selectUser} from "./features/userSlice";
 import './App.css';
 import Chat from './Chat.js';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import Login from './Login.js';
+import { auth } from './firebase.js';
 function App() {
+  const dispatch =useDispatch();
   const user=useSelector(selectUser);
+  useEffect(()=>{
+      auth.onAuthStateChanged((authUser)=>{
+        if(authUser){
+          dispatch(
+            login({ 
+            uid: authUser.uid,
+            photo: authUser.photo,
+            email: authUser.email,
+            displayName:authUser.displayName,
+          })
+          );
+        }else{
+           dispatch(logout());  
+        }
+      })
+  },[dispatch])
   return (
     <div className="app">
       {user?(
@@ -15,7 +34,7 @@ function App() {
         </>
        
       ):(
-        <h2>you are not logged in</h2>
+         <Login/>
       )}
       
     </div>
